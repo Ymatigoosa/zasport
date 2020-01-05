@@ -16,7 +16,7 @@ import zio.{ DefaultRuntime, URIO }
 
 import scala.io.StdIn
 
-object ExampleApp extends App with GenericSchema[Console with Clock] {
+object GraphQLGatewayApp extends App with GenericSchema[Console with Clock] {
 
   implicit val system           = ActorSystem()
   implicit val materializer     = ActorMaterializer()
