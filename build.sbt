@@ -61,6 +61,17 @@ lazy val `webgateway-app` = (project in file("./services/webgateway/app"))
     )
   )
 
+lazy val `wallet-api` = (project in file("./services/wallet/api"))
+  .settings(
+    libraryDependencies ++= Seq(
+      Deps.tapir,
+      Deps.tapirCirce,
+      Deps.enumeratum,
+      Deps.cats,
+      Deps.tethys
+    )
+  )
+
 lazy val root = (project in file("."))
   .aggregate(
     helloworld,
