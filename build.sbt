@@ -46,9 +46,15 @@ ThisBuild / scalacOptions := Seq(
   "-Ymacro-annotations"
 )
 
-lazy val helloworld = (project in file("./services/helloworld"))
+val grpcSettings = Seq(
+  scalapbCodeGeneratorOptions ++= Seq(
+    CodeGeneratorOption.FlatPackage
+  )
+)
 
-lazy val `webgateway-app` = (project in file("./services/webgateway/app"))
+lazy val helloworld = project.in(file("./services/helloworld"))
+
+lazy val `webgateway-app` = project.in(file("./services/webgateway/app"))
   .settings(
     libraryDependencies ++= Seq(
       Deps.caliban,
@@ -61,19 +67,15 @@ lazy val `webgateway-app` = (project in file("./services/webgateway/app"))
     )
   )
 
-lazy val `wallet-api` = (project in file("./services/wallet/api"))
-  .settings(
-    libraryDependencies ++= Seq(
-      Deps.tapir,
-      Deps.tapirCirce,
-      Deps.enumeratum,
-      Deps.cats,
-      Deps.tethys
-    )
-  )
+lazy val `wallet-grpc` = project.in(file("./services/wallet/grpc"))
+  .enablePlugins(Fs2Grpc)
+  .settings(grpcSettings)
 
-lazy val root = (project in file("."))
+lazy val wallet = project.in(file("./services/wallet"))
+  .aggregate(`wallet-grpc`)
+
+lazy val zasport = project.in(file("."))
   .aggregate(
     helloworld,
-    `webgateway-app`
+    wallet
   )

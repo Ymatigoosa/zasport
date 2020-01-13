@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package com.github.zasport.wallet;
+option java_package = "com.github.zasport.wallet.proto";
+
+service Wallet {
+    rpc RegisterWallet (RegisterWalletRequest) returns (RegisterWalletResponse);
+    rpc RegisterDeposit (RegisterDepositRequest) returns (RegisterDepositResponse);
+    rpc AddFunds (AddFundsRequest) returns (AddFundsResponse);
+    rpc RemoveFunds (RemoveFundsRequest) returns (RemoveFundsResponse);
+    rpc GetWallet (GetWalletRequest) returns (GetWalletResponse);
+}
+
+message WalletId {
+    string value = 1;
+}
+message Currency {
+    string value = 1;
+}
+message Amount {
+    bytes value = 1;
+}
+message Timestamp {
+    uint64 value = 1;
+}
+
+message RegisterWalletRequest {
+    WalletId walletId = 1;
+}
+
+message RegisterWalletResponse {
+    WalletSimple wallet = 1;
+}
+
+message RegisterDepositRequest {
+    WalletId walletId = 1;
+    Timestamp until = 2;
+}
+
+message RegisterDepositResponse {
+    WalletDeposit wallet = 1;
+}
+
+message AddFundsRequest {
+    WalletId walletId = 1;
+    Amount amount = 2;
+    Currency maybeCurrency = 3;
+}
+
+message AddFundsResponse {
+    WalletEntity wallet = 1;
+}
+
+message RemoveFundsRequest {
+    WalletId walletId = 1;
+    Amount amount = 2;
+    Currency maybeCurrency = 3;
+}
+
+message RemoveFundsResponse {
+    WalletEntity wallet = 1;
+}
+
+message GetWalletRequest {
+    WalletId walletId = 1;
+}
+
+message GetWalletResponse {
+    WalletId walletId = 1;
+}
+
+message WalletEntity {
+    oneof kind {
+        WalletEmpty empty = 1;
+        WalletSimple wallet = 2;
+        WalletDeposit deposit = 3;
+    }
+}
+
+message WalletSimple {
+    WalletId walletId = 1;
+    Amount available = 2;
+    Amount fullAmount = 3;
+    Amount blocked = 4;
+    Currency currency = 5;
+}
+
+message WalletDeposit {
+    WalletId walletId = 1;
+    Amount amount = 2;
+    Currency currency = 3;
+    Timestamp until = 4;
+}
+message WalletEmpty {
+    WalletId walletId = 1;
+}

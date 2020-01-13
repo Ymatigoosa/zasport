@@ -6,7 +6,6 @@ object Deps {
   val akkaVersion     = "2.6.1"
   val catsVersion     = "2.1.0"
   val tethysVersion   = "0.11.0"
-  val tapirVersion    = "0.12.12"
   val enumeratumVersion = "1.5.15"
 
   val caliban         = "com.github.ghostdogpr" %% "caliban"           % calibanVersion
@@ -19,9 +18,9 @@ object Deps {
 
   val enumeratum = "com.beachape" %% "enumeratum" % enumeratumVersion
 
-  val tapir         = "com.softwaremill.sttp.tapir" %% "tapir-core"             % tapirVersion
-  val tapirCirce    = "com.softwaremill.sttp.tapir" %% "tapir-json-circe"       % tapirVersion
-  val tapirAkkaHttp = "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server" % tapirVersion
-  val tapirClient   = "com.softwaremill.sttp.tapir" %% "tapir-sttp-client"      % tapirVersion
+  val grpcNetty = "io.grpc" % "grpc-netty-shaded" % scalapb.compiler.Version.grpcJavaVersion
+
+  val grpcServer = Seq(grpcNetty)
+  val grpcClient = Seq(grpcNetty)
 
 }
